@@ -17,7 +17,7 @@ where p.pid = pt.pid and t.tid = pt.tid and t.tname = xxxxx;
 
 select count(mid)
 from playerstats 
-where pid = xxxxx;
+where pfname = xxxxx and plname = xxxxx;
 
 
 ////////////////////////////////////////////////////////////////////////////////////

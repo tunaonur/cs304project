@@ -1,10 +1,10 @@
-drop table players;
-drop table playerteams;
-drop table teams;
-drop table locations;
-drop table matches;
-drop table matchstats;
-drop table playerstats;
+DROP TABLE IF EXISTS players;
+DROP TABLE IF EXISTS playerteams;
+DROP TABLE IF EXISTS teams;
+DROP TABLE IF EXISTS locations;
+DROP TABLE IF EXISTS matches;
+DROP TABLE IF EXISTS matchstats;
+DROP TABLE IF EXISTS playerstats;
 
 
 create table players
@@ -23,8 +23,8 @@ grant select on players to public;
   tid char(5) not null,
   salary char(5) null,
   primary key (pid, tid),
-  foreign key (pid) references players,
-  foreign key (tid) references teams
+  foreign key (pid) references players(pid),
+  foreign key (tid) references teams(tid)
   );
 
 grant select on playerteams to public;
@@ -34,7 +34,7 @@ grant select on playerteams to public;
     locid char(5) not null,
     tname char(40) not null,
     primary key (tid),
-    foreign key (locid) references locations
+    foreign key (locid) references locations(locid)
   );
 
 grant select on teams to public;
@@ -59,7 +59,7 @@ grant select on locations to public;
     primary key (mid),
     foreign key (hid) references teams(tid),
     foreign key (aid) references teams(tid),
-    foreign key (locid) references locations
+    foreign key (locid) references locations (locid)
   );
 
 grant select on matches to public;
@@ -74,8 +74,8 @@ grant select on matches to public;
     homeaway char(4) null,
 
     primary key (mid,tid,opid),
-    foreign key (mid) references matches,
-    foreign key (tid) references teams,
+    foreign key (mid) references matches(mid),
+    foreign key (tid) references teams(tid),
     foreign key (opid) references teams(tid)
     );
 
@@ -86,8 +86,9 @@ grant select on matchstats to public;
     pid char(5) not null,
     ps int,
     primary key (mid, pid),
-    foreign key (mid) references matches,
-    foreign key (tid) references teams);
+    foreign key (mid) references matches(mid),
+    foreign key (tid) references teams (tid)
+    );
 
 grant select on playerstats to public;
 
