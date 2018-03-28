@@ -1,77 +1,72 @@
-DROP TABLE IF EXISTS players;
-DROP TABLE IF EXISTS playerteams;
-DROP TABLE IF EXISTS teams;
-DROP TABLE IF EXISTS locations;
-DROP TABLE IF EXISTS matches;
-DROP TABLE IF EXISTS matchstats;
-DROP TABLE IF EXISTS playerstats;
+drop table players cascade constraints;
+drop table playerteams cascade constraints;
+drop table teams cascade constraints;
+drop table locations cascade constraints;
+drop table matches cascade constraints;
+drop table matchstats cascade constraints;
+drop table playerstats cascade constraints;
 
 
 create table players
-  (pid char(5) not null,
-  pfname char(40) not null,
-  plname char(40) not null,
-  dob DATE null,
-  jno int null,
-  pos char(4) null,
+  (pid char(5),
+  pfname char(40),
+  plname char(40),
+  dob DATE,
+  jno int,
+  pos char(4),
   primary key (pid)
   );
-grant select on players to public;
 
  create table playerteams(
-  pid char(5) not null,
-  tid char(5) not null,
-  salary char(5) null,
+  pid char(5),
+  tid char(5),
+  salary char(5),
   primary key (pid, tid),
   foreign key (pid) references players(pid),
   foreign key (tid) references teams(tid)
   );
 
-grant select on playerteams to public;
 
   create table teams
-    (tid char(5) not null,
-    locid char(5) not null,
-    tname char(40) not null,
+    (tid char(5),
+    locid char(5),
+    tname char(40),
     primary key (tid),
     foreign key (locid) references locations(locid)
   );
 
-grant select on teams to public;
 
   create table locations
-    (locid char(5) not null,
-    city char(20) null,
-    stadium char(20) null,
-    capacity int null,
+    (locid char(5),
+    city char(20),
+    stadium char(20),
+    capacity int,
     primary key (locid)
   );
 
-grant select on locations to public;
 
   create table matches
-    (mid char(5) not null,
-    hid char(5) not null,
-    aid char(5) not null,
-    locid char(5) not null,
-    mdate DATE null,
-    mtime char(20) null,
+    (mid char(5),
+    hid char(5),
+    aid char(5),
+    locid char(5),
+    mdate DATE,
+    mtime char(20),
     primary key (mid),
     foreign key (hid) references teams(tid),
     foreign key (aid) references teams(tid),
     foreign key (locid) references locations (locid)
   );
 
-grant select on matches to public;
 
   create table matchstats
-    (mid char(5) not null,
-    tid char(5) not null,
-    opid char(5) not null,
-    tscore int null,
-    oscore int null,
-    winloss char(1) null,
-    homeaway char(4) null,
+    (mid char(5),
+    tid char(5),
+    opid char(5),
+    tscore int,
+    oscore int,
+    winloss char(1),
+    homeaway char(4),
 
     primary key (mid,tid,opid),
     foreign key (mid) references matches(mid),
@@ -79,18 +74,16 @@ grant select on matches to public;
     foreign key (opid) references teams(tid)
     );
 
-grant select on matchstats to public;
 
   create table playerstats
-    (mid char(5) not null,
-    pid char(5) not null,
+    (mid char(5),
+    pid char(5),
     ps int,
     primary key (mid, pid),
     foreign key (mid) references matches(mid),
     foreign key (tid) references teams (tid)
     );
 
-grant select on playerstats to public;
 
 insert into locations values('oak','Oakland','Oracle Arena', '1500');
 insert into locations values('tdg','Boston','TD Garden', '1500');
